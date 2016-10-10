@@ -1,29 +1,86 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+#include <iostream>
+#include <string>
+using namespace std;
+ template <class T>
+ class Node{      //class stores items into linked list
+ public :
+ T item;
+ Node *next; 
+ };
+ template <class T>
+ class Queue {
+  public:
+    Queue();                        // constructor
+   ~Queue();                       // destructor
+    
+    bool IsEmpty() const;           // returns if queue is empty
+    void enqueue(const T & item);  // enters item at rear of queue
+    void dequeue();                  // removes item at front of queue
+    T Front();	                // returns item at front of queue
 
-# Precompiled Headers
-*.gch
-*.pch
+  private:
+    Node<T> * myFront;           // pointers to linked list of items
+    Node<T> * myRear;
+   
+};
+ 
+template <class T>
+Queue<T>::Queue()
+// Constructor
+{
+    myFront = NULL;
+    myRear = NULL;
+}
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+template <class T>
+Queue<T>::~Queue()
+// Destructor
+{
+    while (!IsEmpty()) {
+        dequeue();
+    }
+}
 
-# Fortran module files
-*.mod
-*.smod
+template <class T>
+bool Queue<T>::IsEmpty() const
+//  true if empty queue, else false
+{
+    return (myFront == NULL);
+}
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+template <class T>
+void Queue<T>::enqueue(const T & newitem )
+// Results: enters toBeEntered at rear of queue
+{
+    Node<T> * temp = new Node<T>;
+    temp->item = newitem;
+    temp->next = NULL;
+    
+    if (myRear == NULL) {
+        myRear = temp;
+        myFront = temp;
+	}
+    else {
+        myRear->next = temp;
+        myRear = temp;
+	}
+}
 
-# Executables
-*.exe
-*.out
-*.app
+template <class T>
+void Queue<T>::dequeue()
+// removes an item from the front of the queue
+{
+    Node<T> * temp = myFront;
+    myFront = myFront->next;
+    delete temp;
+
+    if (myFront == NULL) {
+        myRear = NULL;
+	}
+}
+template <class T>
+T Queue<T>::Front() 
+// reference to item at the front of the queue
+{
+    return myFront->item;
+}
