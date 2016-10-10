@@ -1,29 +1,64 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
 
-# Precompiled Headers
-*.gch
-*.pch
+#include <iostream>
+#include <string>
+using namespace std;
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+template <class T>
+class Stack
+{
+private:
+    int size,top;
+    T s_ptr;
+public:
+    Stack(int);
+    void push(T val);
+    T pop();
+    bool isempty();
+};
 
-# Fortran module files
-*.mod
-*.smod
+template <class T>
+Stack<T>::Stack(int maxsize) {
+    size = maxsize;
+    top=-1;
+    s_ptr=new T(size);
+}
+template <class T>
+void Stack <T>:: push (T val){
+    if (!isempty()) {
+        s_ptr[++top]=val;
+    }
+    else
+        cout << "stack is gull" <<endl;
+    
+};
+template <class T>
+T Stack<T>::pop()
+{
+    if (!isempty ())
+    {
+        return s_ptr[top--];
+    }
+    else
+    {
+        cout << "Stack is empty " << endl;
+    }
+};
+template <class T>
+bool Stack <T> :: isempty()
+{
+    return top =-1;
+}
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+int main() {
+    Stack <int> s(5);
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push(4);
+    s.push(5);
+    for (int i=0;i<5;i++){
+        cout << s.pop()<< endl;
+        }
+        
+        return 0;
+}
