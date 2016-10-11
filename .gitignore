@@ -1,29 +1,127 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+#include <iostream>
+#include <string>
+using namespace std;
 
-# Precompiled Headers
-*.gch
-*.pch
+template <class T>
+class Node{      //class stores items into linked list
+    public :
+        T item;
+        Node *next;
+};
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+template <class T>
+class list{
+private:
+    Node <T> * m_head;
+    unsigned int m_size;
+    Node<T>* get_node(int);
+public:
+    list();
+    ~list();
+};
 
-# Fortran module files
-*.mod
-*.smod
+template <class T>
+list<T>::list(){
+    m_head = new Node<T>;
+    m_size = 10;
+}
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+template <class T>
+list<T>::~list()
+{
+    delete m_head;
+}
 
-# Executables
-*.exe
-*.out
-*.app
+template <class T>
+class Queue {
+public:
+    Queue();                        // constructor
+    ~Queue();                       // destructor
+    
+    bool IsEmpty();           // returns if queue is empty
+    void enqueue(const T & item);  // enters item at rear of queue
+    void dequeue();                  // removes item at front of queue
+    T Front();// returns item at front of queue
+    void print();
+private:
+    Node<T> * myFront;           // pointers to linked list of items
+    Node<T> * myRear;
+    
+};
+
+template <class T>
+Queue<T>::Queue()       // Constructor
+{
+    myFront = NULL;
+    myRear = NULL;
+}
+
+template <class T>
+Queue<T>::~Queue()      // Destructor
+{
+    while (!IsEmpty()) {
+        dequeue();
+    }
+}
+
+template <class T>
+bool Queue<T>::IsEmpty()        //  true if empty queue, else false
+{
+    if(myFront == NULL){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+template <class T>
+void Queue<T>::enqueue(const T & newitem )      // Results: enters newitem at rear of queue
+{
+    Node<T> * temp = new Node<T>;
+    temp->item = newitem;
+    temp->next = NULL;
+    
+    if (myRear == NULL) {
+        myRear = temp;
+        myFront = temp;
+    }
+    else {
+        myRear->next = temp;
+        myRear = temp;
+    }
+}
+
+template <class T>
+void Queue<T>::dequeue()        // removes an item from the front of the queue
+{
+    Node<T> * temp = myFront;
+    myFront = myFront->next;
+    delete temp;
+    
+    if (myFront == NULL) {
+        myRear = NULL;
+    }
+}
+
+template <class T>
+T Queue<T>::Front()     // reference to item at the front of the queue
+{
+    return myFront->item;
+}
+
+template <class T>
+void Queue<T>::print(){
+    Node<T> *temp =  new Node<T>;
+    temp->next = myFront;
+    
+    while(temp->next!= NULL){
+        temp = temp->next;
+        cout << temp->data << endl;
+    }
+}
+
+int main(){
+    return 0;
+}
+
